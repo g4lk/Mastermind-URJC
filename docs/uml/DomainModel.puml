@@ -1,0 +1,42 @@
+@startuml
+title Class Diagram
+
+Player <|-down- CodeMaker
+Player <|-down- CodeBreaker
+
+Goal <|-down- WinnerResult
+Result <|-down- WinnerResult
+
+Combination <|-down- SecretCombination
+Combination <|-down- ProposedCombination
+
+Success <|-down- Black
+Success <|-down- White
+
+Color <|-down- Red
+Color <|-down- Blue
+Color <|-down- Yellow
+Color <|-down- Green
+Color <|-down- Orange
+Color <|-down- Purple
+
+Mastermind *-down-> Board
+Mastermind *-down-> Turn
+Mastermind *-down->"2" Player
+Turn -down->"2" Player
+Board *-down-> SecretCombination
+Board o-down->"0..10" Result
+Board o-down-> ProposedCombination
+Result -down->"0..10" ProposedCombination
+CodeMaker -down-> SecretCombination
+CodeBreaker -down->"0..10" ProposedCombination
+Result *-down->"0..4" Success
+CodeBreaker -down-> Goal
+WinnerResult -down->"4" Black
+Position -down-> Black
+Combination *-down->"4" Position
+Success --down-> Color
+Position o-down-> Color
+
+
+@enduml
