@@ -1,0 +1,12 @@
+@startuml
+
+package davidparla.urjc.mastermind #DDDDDD{}
+package davidparla.urjc.utils #DDDDDD{}
+package java.util #FFFFFF{}
+package java.io #FFFFFF{}
+
+davidparla.urjc.mastermind ..> davidparla.urjc.utils
+davidparla.urjc.utils ..> java.io
+davidparla.urjc.mastermind ..> java.util
+
+@enduml

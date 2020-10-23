@@ -1,0 +1,18 @@
+@startuml
+
+package "  "  as davidparla.urjc.mastermind {
+}
+package "  "  as davidparla.urjc.utils {
+}
+package "  "  as java.io {
+}
+package "  "  as java.util {
+}
+
+[mastermind.jar]
+mastermind.jar *--> davidparla.urjc.mastermind
+mastermind.jar *--> davidparla.urjc.utils
+mastermind.jar *--> java.io
+mastermind.jar *--> java.util
+
+@enduml

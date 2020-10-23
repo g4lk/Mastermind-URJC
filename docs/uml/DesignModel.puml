@@ -1,0 +1,155 @@
+@startuml
+
+package davidparla.urjc.mastermind{
+
+    class MasterMind{
+        - Board board;
+        - void play()
+        - void playGame()
+        - boolean isResumedGame()
+        + static void main(String[] args)
+    }
+
+    Class Board{
+        - static final int MAX_ATTEMPTS
+        - int attempts
+        - List<Result> results;
+        - SecretCombination secretCombination;
+        - List<ProposedCombination> proposedCombination;
+        + Board()
+        + add(ProposedCombination proposedCombination)
+        + boolean isFinished()
+        + boolean isLooser()
+        + boolean isWinner()
+        + void writeln()
+    }
+
+    abstract class Combination {
+        # List<Color> colors;
+        + Combination();
+    }
+
+    class ProposedCombination extends Combination {
+        + ProposedCombination()
+        + void read()
+        - Error checkError(String colorCharacters)
+        + boolean contains(Color color, int position)
+        + boolean contains(Color color)
+        + void write()
+    }
+
+    class SecretCombination extends Combination {
+        + SecretCombination()
+        + getResult(ProposedCombination proposedCombination)
+        + void writeln()
+    }
+
+    class Result {
+        - static final int WIDTH;
+        - int blacks;
+        - int whites;
+        + Result(int blacks, int whites)
+        + boolean isWinner()
+        + void writeln()
+    }
+
+    enum Color {
+        RED
+        BLUE
+        YELLOW
+        GREEN
+        ORANGE
+        PURPLE
+        NULL_COLOR
+        - char symbol;
+        + Color()
+        + Color(char symbol)
+        + static Color get(int ordinal)
+        + +static Color get(char color)
+        + void write()
+        + boolean isNull()
+    }
+
+    enum Error {
+
+        WRONG_LENGTH
+        WRONG_COLORS
+        DUPLICATE_COLORS
+        NULL_ERROR
+        - String message
+        + Error()
+        + Error(String message)
+        + void writeln()
+        + boolean isNull()
+    }
+
+    enum Message {
+        TITLE
+        PROPOSE_COMBINATION
+        ATTEMPTS
+        RESULT
+        WINNER
+        LOOSER
+        RESUME
+        - String message
+        + Message(String message)
+        + void write()
+        + void writeln()
+        + void writeln(int attempts)
+        + void writeln(int blacks, int whites)
+    }
+}
+
+package davidparla.urjc.utils {
+
+    class Console {
+        + static Console console
+        - BufferedReader bufferedReader
+        + static Console instance()
+        + String readString(String title)
+        + String readString()
+        + int readInt(String title)
+        + char readChar(String title)
+        + void writeln()
+        + void write(String string)
+        + void writeln(String string)
+        + void write(char character)
+        + void writeError(String format)
+    }
+
+    class YesNoDialog {
+        - static final char AFFIRMATIVE
+        - static final char NEGATIVE
+        - static final String SUFFIX
+        - static final String MESSAGE
+        - char answer;
+        + boolean read(String message)
+        - boolean isAffirmative()
+        - char getAnswer()
+        - boolean isNegative()
+   }
+
+}
+
+
+MasterMind *-down-> Board
+MasterMind .down.> Message
+MasterMind .down.> YesNoDialog
+MasterMind .down.> "0..10" ProposedCombination
+Combination *-down-> "4" Color
+Board *-down-> "0..10" Result
+Board *-down-> SecretCombination
+Board *-down-> "0..10" ProposedCombination
+Board .down.> Message
+Board .down.> Console
+Result *-down-> ProposedCombination
+Result .down.> Console
+ProposedCombination .down.> Error
+ProposedCombination .down.> Message
+ProposedCombination .down.> Console
+Error .down.> Message
+Error .down.> Console
+Message .down.> Console
+YesNoDialog .down.> Console
+
+@enduml
