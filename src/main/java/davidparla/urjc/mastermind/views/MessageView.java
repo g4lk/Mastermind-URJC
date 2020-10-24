@@ -18,7 +18,9 @@ enum MessageView {
 	private Console console;
 	
 	private MessageView(String message) {
+
 		this.message = message;
+		this.console = new Console();
 	}
 
 	void write() {
