@@ -1,0 +1,38 @@
+@startuml
+
+class  mastermind.utils.Console{
+    + {static} Console console
+    - bufferedReader: BufferedReader
+    - Console()
+    + {static} Console instance()
+    + write(char): void
+    + write(String): void
+    + readInt(String): int
+    + readChar(String): char
+    - writeError(String): void
+    + writeln(String): void
+    + writeln(int): void
+    + writeln(): void
+    + readString(String): String
+}
+mastermind.utils.Console *-down-> java.io.BufferedReader
+
+class  mastermind.utils.WithConsoleView{
+    # console: Console
+    # WithConsoleView()
+}
+mastermind.utils.WithConsoleView *-down-> mastermind.utils.Console
+
+class  mastermind.utils.YesNoDialog{
+    - {static} AFIRMATIVE: char
+    - {static} NEGATIVE: char
+    - {static} QUESTION: String
+    - {static} MESSAGE: String
+    + YesNoDialog()
+    + read(String): boolean
+    - {static} isAfirmative(char): boolean
+    - {static} isNegative(char): boolean
+    }
+mastermind.utils.WithConsoleView <|-down- mastermind.utils.YesNoDialog
+
+@enduml

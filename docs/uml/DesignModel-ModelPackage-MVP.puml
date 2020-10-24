@@ -1,0 +1,77 @@
+@startuml
+
+    enum  mastermind.models.Color{
+        + {static} RED
+        + {static} BLUE
+        + {static} YELLOW
+        + {static} GREEN
+        + {static} ORANGE
+        + {static} PURPLE
+        + {static} length(): int
+    }
+    
+    class  mastermind.models.Combination{
+        - {static} WIDTH: int
+        # colors: List<Color>
+        # Combination()
+        + {static} getWidth(): int
+    }
+    mastermind.models.Combination *-down-> java.util.List
+    mastermind.models.Combination *-down-> java.util.ArrayList
+    mastermind.models.Combination *-down-> mastermind.models.Color
+    
+    enum  mastermind.models.Error{
+        + {static} DUPLICATED
+        + {static} WRONG_CHARACTERS
+        + {static} WRONG_LENGTH
+    }
+    
+    class  mastermind.models.Game{
+        - {static} MAX_LONG: int
+        - secretCombination: SecretCombination
+        - proposedCombinations: List<ProposedCombination>
+        - results: List<Result>
+        - attempts: int
+        + Game()
+        + clear(): void
+        + addProposedCombination(ProposedCombination): void
+        + isLooser(): boolean
+        + isWinner(): boolean
+        + getAttempts(): int
+        + getProposedCombination(int position): ProposedCombination
+        + getResult(int position): Result
+    }
+
+    mastermind.models.Game *-down-> java.util.List
+    mastermind.models.Game *-down-> java.util.ArrayList
+    mastermind.models.Game *-down-> mastermind.models.SecretCombination
+    mastermind.models.Game *-down-> mastermind.models.Result
+    mastermind.models.Game --> mastermind.models.ProposedCombination
+    
+    class  mastermind.models.ProposedCombination {
+        ~ contains(Color, int): boolean
+        ~ contains(Color): boolean
+        ~ getColors(): List<Color>
+    }
+    mastermind.models.Combination <|-down- mastermind.models.ProposedCombination
+    mastermind.models.ProposedCombination *-down-> java.util.List
+    mastermind.models.ProposedCombination *-down-> mastermind.models.Color
+
+    class  mastermind.models.Result{
+        - blacks: int
+        - whites: int
+        ~ Result(int, int)
+        ~ isWinner(): boolean
+        + getBlacks(): int
+        + getWhites(): int
+    }
+    
+    class  mastermind.models.SecretCombination{
+        ~ SecretCombination()
+        ~ getResult(ProposedCombination): Result
+    }
+    mastermind.models.Combination <|-down- mastermind.models.SecretCombination
+    mastermind.models.SecretCombination ..> mastermind.models.Result
+    mastermind.models.SecretCombination ..> mastermind.models.ProposedCombination
+
+@enduml

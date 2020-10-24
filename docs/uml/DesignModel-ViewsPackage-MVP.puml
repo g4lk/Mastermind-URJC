@@ -1,0 +1,147 @@
+@startuml
+
+package mastermind.views {
+
+    abstract class AbstractView{
+        ~ Game game
+        + AbstractView(Game game)
+        + interact(): void
+        ~ {abstract} start(): void
+        ~ {abstract} propose(): boolean
+        ~ {abstract} isNewGame(): boolean
+    }
+
+    enum MessageView{
+        + {static} ATTEMPTS
+        + {static} SECRET
+        + {static} RESUME
+        + {static} RESULT
+        + {static} PROPOSED_COMBINATION
+        + {static} TITLE
+        + {static} WINNER
+        + {static} LOOSER
+        - message: String
+        - Console console
+        - MessageView(String message)
+        ~ write(): void
+        ~ writeln(): void
+        ~ writeln(int attempts): void
+        ~ writeln(int blacks, int whites): void
+    }
+
+    class View {
+        - final StartView startView;
+        - final ProposalView proposalView;
+        - final ResumeView resumeView;
+        + View()
+        + interact(Controller controller): void
+        + visit(StartController startController): void
+        + visit(ProposalController proposalController): void
+        + visit(ResumeController resumeController): void
+    }
+
+    class ColorView{
+        - {static} final char[] INITIALS
+        - final Color color
+        ~ ColorView(Color color)
+        ~ {static} allInitials(): String
+        + {static} getInstance(char character): Color
+        + write(): void
+    }
+
+    class ErrorView{
+        - {static} final String[] MESSAGES
+        - final Error error;
+        ~ ErrorView(Error error)
+        + writeln(): void
+    }
+
+     class ProposalView{
+        - Game game
+        - final SecretCombinationView secretCombinationView
+        ~ ProposalView(Game game)
+        ~ interact(): boolean
+    }
+
+    class ProposedCombinationView{
+        - ProposedCombination proposedCombination
+        ~ ProposedCombinationView(ProposedCombination proposedCombination)
+        ~ write(): void
+        ~ read(): void
+    }
+
+    class ResultView{
+        - final Result result;
+        ~ ResultView(Result result)
+        ~ writeln(): void
+    }
+
+    class ResumeView{
+        - Game game
+        ~ ResumeView(Game game)
+        ~ interact(): boolean
+    }
+
+    class SecretCombinationView{
+        ~ SecretCombinationView()
+        ~ writeln(): void
+    }
+
+    class StartView{
+        ~ StartView()
+        ~ interact(): void
+    }
+
+}
+
+package mastermind.models {
+    class ProposedCombination
+    class Result
+    class Color
+    class Combination
+    class Error
+    class Game
+    class SecretCombination
+}
+
+package mastermind.utils {
+    class WithConsoleView
+    class YesNoDialog
+    class Error
+}
+
+AbstractView <|-- View
+
+WithConsoleView <|---- ColorView
+WithConsoleView <|---- ProposalView
+
+View *----> StartView
+View *----> ProposalView
+View *----> ResumeView
+
+StartView ....> MessageView
+StartView ....> SecretCombinationView
+ProposalView .....> MessageView
+ProposalView .....> SecretCombinationView
+ProposalView .....> ProposedCombinationView
+ProposalView .....> ResultView
+ProposalView o------> ProposedCombination
+
+ResumeView ....> YesNoDialog
+
+ProposedCombinationView *----> ProposedCombination
+ProposedCombinationView *----> Color
+ProposedCombinationView *----> Error
+ProposedCombinationView ....> ColorView
+ProposedCombinationView ....> ErrorView
+
+SecretCombinationView ....> MessageView
+
+ResultView ...> MessageView
+ResultView *---> Result
+
+ErrorView ....> ColorView
+
+
+@enduml
+

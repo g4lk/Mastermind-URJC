@@ -1,0 +1,15 @@
+@startuml
+
+    class mastermind.Mastermind{
+        - final Logic logic
+        - final View view
+        + Mastermind()
+        - void play()
+        + static void main(String[] args)
+    }
+
+
+    mastermind.Mastermind *--> mastermind.views.View
+    mastermind.Mastermind *--> mastermind.models.Game
+
+@enduml

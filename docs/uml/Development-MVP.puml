@@ -1,0 +1,24 @@
+@startuml
+
+package "  "  as mastermind {
+}
+package "  "  as mastermind.views {
+}
+package "  "  as mastermind.models {
+}
+package "  "  as mastermind.utils {
+}
+package "  "  as java.io {
+}
+package "  "  as java.util {
+}
+
+[mastermind.jar]
+mastermind.jar *---> mastermind
+mastermind.jar *---> mastermind.models
+mastermind.jar *---> mastermind.views
+mastermind.jar *---> mastermind.utils
+mastermind.jar *---> java.io
+mastermind.jar *---> java.util
+
+@enduml
